@@ -13,15 +13,17 @@
         <option :value="g" v-for="g in grade" :key="g">{{g}}</option>
       </select>
     </div>
-    {{registedSubject}}
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
+import Result from '@/components/Result'
+import { mapActions } from 'vuex'
 export default {
   name: 'home',
+  components: {
+    Result
+  },
   data () {
     return {
       amoutSubj: 0,
@@ -48,6 +50,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      setData: 'setData'
+    }),
     createMockupData () {
       for (let i = 0; i < this.amoutSubj; i++) {
         this.registedSubject.push({
@@ -56,6 +61,11 @@ export default {
           grade: ''
         })
       }
+    }
+  },
+  watch: {
+    registedSubject (val) {
+      this.setData(val)
     }
   }
 }
